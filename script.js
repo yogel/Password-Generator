@@ -25,6 +25,26 @@ function ranLetters(amount) {
   return array;
 }
 
+function genLetters(amount, capitals) {
+  let array = [];
+  if (capitals === 0) {
+    array = ranLetters(amount);
+  } else if (capitals === "doesn't matter") {
+    //run one or two to capitalize letters or not
+    array = ranLetters(amount);
+    for ( i = 0; i < amount; i++ ) {
+      let num = oneOrTwo();
+      if ( num === 1 ) {
+        array[i].toUpperCase();
+      }
+    }
+  }
+  else {
+
+  }
+
+}
+
 // const $amountOfCharactersVal = $amountOfCharacters.val();
 // const $isLettersVal = $isLetters.val();
 // const $amountOfLettersVal = $amountOfLetters.val();
@@ -39,6 +59,7 @@ const $amountOfCharacters = $('#amountOfCharacters');
 const $isLetters = $('#isLetters');
 const $amountOfLetters = $('#amountOfLetters');
 const $isCapitals = $('#isCapitals');
+const $isQuantityCapitals = $('#isQuantityCapitals');
 const $amountOfCapitals = $('#amountOfCapitals');
 const $isNumbers = $('#isNumbers');
 const $amountOfNumbers = $('#amountOfNumbers');
@@ -53,6 +74,9 @@ $('.isIncluded').on('click', function() {
     }
 });
 
+//work on the quantity of capitals mattering
+//checks to see if the user wants to include certain
+//characters then removes the number input field if they don't
 function checkedMaybe() {
   $('.isIncluded').each(function(){
     if( $(this).prop('checked') ) {
@@ -84,8 +108,11 @@ $form.submit( function(e) {
     var lettersQuantity = 0;
   }
 
-  if ( $isCapitals.prop('checked') ) {
-    var capitalsQuantity = parseInt( $amountOfCapitals.val() )
+  if ( $isCapitals.prop('checked') && $isQuantityCapitals.prop('checked') ) {
+    var capitalsQuantity = parseInt( $amountOfCapitals.val() );
+  }
+  else if ( $isCapitals.prop('checked') ) {
+    var capitalsQuantity = "doesn't matter";
   }
   else {
     var capitalsQuantity = 0;
@@ -99,8 +126,9 @@ $form.submit( function(e) {
   }
 
   var nums = ranNumbers(numbersQuantity);
-  var lets = ranLetters(lettersQuantity);
+  var lets = genLetters(lettersQuantity);
   var password = nums + lets;
 
   console.log(password);
+  //lets comes back as undefined
 });
