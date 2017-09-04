@@ -13,7 +13,7 @@ function oneOrTwo() {
   return num;
 }
 
-/*This function generates a random letter*/
+/*This function generates a bunch of random letters*/
 function ranLetters(amount) {
   let array = []
   for ( i = 0; i < amount; i ++ ) {
@@ -26,23 +26,36 @@ function ranLetters(amount) {
 }
 
 function genLetters(amount, capitals) {
+  console.log('function fired');
   let array = [];
   if (capitals === 0) {
+    console.log('if1 fired');
     array = ranLetters(amount);
-  } else if (capitals === "doesn't matter") {
+  }
+  else if (capitals === "doesn't matter") {
     //run one or two to capitalize letters or not
+    console.log('else if fired');
     array = ranLetters(amount);
-    for ( i = 0; i < amount; i++ ) {
-      let num = oneOrTwo();
-      if ( num === 1 ) {
-        array[i].toUpperCase();
+    for ( let i = 0; i < amount; i++ ) {
+      var num = oneOrTwo();
+      console.log(num);
+      if ( num == 1 ) {
+        let capitalVersion = array[i].toUpperCase();
+        console.log($.type(array));
+        // array.splice(i, 1, capitalVersion);
       }
+      console.log(array);
     }
   }
   else {
-
+    console.log('else fired');
+    let lowerCaseQuantity = amount - capitals;
+    console.log('lc quantity: ' + lowerCaseQuantity)
+    let lowerCase = ranLetters(lowerCaseQuantity);
+    var caps = ranLetters(capitals);
+    array = lowerCase + caps.toUpperCase();
   }
-
+  return array;
 }
 
 // const $amountOfCharactersVal = $amountOfCharacters.val();
@@ -126,9 +139,12 @@ $form.submit( function(e) {
   }
 
   var nums = ranNumbers(numbersQuantity);
-  var lets = genLetters(lettersQuantity);
+  var lets = genLetters(lettersQuantity, capitalsQuantity);
   var password = nums + lets;
 
+  console.log('capitals: '+ capitalsQuantity);
+  console.log('letters: '+ lettersQuantity);
+  console.log('numbers: '+ numbersQuantity);
   console.log(password);
-  //lets comes back as undefined
+
 });
