@@ -83,8 +83,18 @@ const $submit = $('#submit');
 //this takes away input when user doesn't want certain characters
 $('.isIncluded').on('click', function() {
     if( $(this).prop('checked') ) {
+      if( $(this).prop("id") == "isCapitals" ) {
+        //if the user doesn't want capitals there is no reason to ask
+        //how many capitals they want or whether it matters
+        $(this).next().next().show();
+        $(this).next().next().next().show();
+      }
         $(this).next().show();
     } else {
+      if( $(this).prop("id") == "isCapitals" ) {
+        $(this).next().next().hide();
+        $(this).next().next().next().hide();
+      }
         $(this).next().hide();
     }
 });
