@@ -27,24 +27,26 @@ function ranLetters(amount) {
 
 function genLetters(amount, capitals) {
   console.log('function fired');
-  let array = [];
+  let lets = [];
   if (capitals === 0) {
     console.log('if1 fired');
-    array = ranLetters(amount);
+    lets = ranLetters(amount);
   }
   else if (capitals === "doesn't matter") {
     //run one or two to capitalize letters or not
     console.log('else if fired');
-    array = ranLetters(amount);
+    lets = ranLetters(amount);
+    array = lets.split('');
     for ( let i = 0; i < amount; i++ ) {
       var num = oneOrTwo();
       console.log(num);
       if ( num == 1 ) {
         let capitalVersion = array[i].toUpperCase();
         console.log($.type(array));
-        // array.splice(i, 1, capitalVersion);
+        array.splice(i, 1, capitalVersion);
       }
       console.log(array);
+      lets = array.join('');
     }
   }
   else {
@@ -53,9 +55,9 @@ function genLetters(amount, capitals) {
     console.log('lc quantity: ' + lowerCaseQuantity)
     let lowerCase = ranLetters(lowerCaseQuantity);
     var caps = ranLetters(capitals);
-    array = lowerCase + caps.toUpperCase();
+    lets = lowerCase + caps.toUpperCase();
   }
-  return array;
+  return lets;
 }
 
 // const $amountOfCharactersVal = $amountOfCharacters.val();
