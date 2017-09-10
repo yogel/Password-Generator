@@ -26,33 +26,25 @@ function ranLetters(amount) {
 }
 
 function genLetters(amount, capitals) {
-  console.log('function fired');
   let lets = [];
   if (capitals === 0) {
-    console.log('if1 fired');
     lets = ranLetters(amount);
   }
   else if (capitals === "doesn't matter") {
     //run one or two to capitalize letters or not
-    console.log('else if fired');
     lets = ranLetters(amount);
     array = lets.split('');
     for ( let i = 0; i < amount; i++ ) {
       var num = oneOrTwo();
-      console.log(num);
       if ( num == 1 ) {
         let capitalVersion = array[i].toUpperCase();
-        console.log($.type(array));
         array.splice(i, 1, capitalVersion);
       }
-      console.log(array);
       lets = array.join('');
     }
   }
   else {
-    console.log('else fired');
     let lowerCaseQuantity = amount - capitals;
-    console.log('lc quantity: ' + lowerCaseQuantity)
     let lowerCase = ranLetters(lowerCaseQuantity);
     var caps = ranLetters(capitals);
     lets = lowerCase + caps.toUpperCase();
@@ -60,16 +52,7 @@ function genLetters(amount, capitals) {
   return lets;
 }
 
-const $form = $('form');
-const $amountOfCharacters = $('#amountOfCharacters');
-const $isLetters = $('#isLetters');
-const $amountOfLetters = $('#amountOfLetters');
-const $isCapitals = $('#isCapitals');
-const $isQuantityCapitals = $('#isQuantityCapitals');
-const $amountOfCapitals = $('#amountOfCapitals');
-const $isNumbers = $('#isNumbers');
-const $amountOfNumbers = $('#amountOfNumbers');
-const $submit = $('#submit');
+
 
 //this takes away input when user doesn't want certain characters
 $('.isIncluded').on('click', function() {
@@ -103,6 +86,23 @@ function shuffle(string) {
   return password;
 }
 
+function correctForCapitals() {
+  if( $isCapitals.prop('checked') ) {
+    $amountOfCapitals.val( Math.floor( $amountOfLetters.val() / 3 ) );
+  }
+}
+
+function correctTotal() {
+  if( $amountOfLetters.val() < 0 ) {
+    $amountOfCharacters.val( $amountOfNumbers.val() );
+    $amountOfLetters.val(0);
+  }
+  if( $amountOfNumbers.val() < 0 ) {
+    $amountOfCharacters.val( $amountOfLetters.val() );
+    $amountOfNumbers.val(0);
+  }
+}
+
 //work on the quantity of capitals mattering
 //checks to see if the user wants to include certain
 //characters then removes the number input field if they don't
@@ -118,11 +118,59 @@ function checkedMaybe() {
 
 checkedMaybe();
 
+const $form = $('form');
+const $amountOfCharacters = $('#amountOfCharacters');
+const $isLetters = $('#isLetters');
+const $amountOfLetters = $('#amountOfLetters');
+const $isCapitals = $('#isCapitals');
+const $isQuantityCapitals = $('#isQuantityCapitals');
+const $amountOfCapitals = $('#amountOfCapitals');
+const $isNumbers = $('#isNumbers');
+const $amountOfNumbers = $('#amountOfNumbers');
+const $submit = $('#submit');
 //when total inputed evenly distribute total amungst wanted types
 
 
 $amountOfCharacters.on('change', function() {
   console.log( $(this).val() );
+  if( $isLetters.prop('checked') && $isNumbers.prop('checked') ) {
+    //total divided between numbers and letters and
+    //if capitals checked then some will be capitals
+    let nums = $amountOfCharacters.val() / 2;
+    let lets = $amountOfCharacters.val() / 2;
+    nums = Math.floor(nums);
+    lets = Math.ceil(lets);
+    $amountOfLetters.val(lets);
+    $amountOfNumbers.val(nums);
+    console.log( "numbers: " + nums + "    letters: " + lets )
+  } else if ( $isLetters.prop('checked') ) {
+    //letters will be total and if capitals checked some will be capitals
+    $amountOfLetters.val( $(this).val() )
+  } else if ( $isNumbers.prop('checked') ) {
+    //numbers will become total
+    $amountOfNumbers.val( $(this).val() )
+  }
+  //deal with the capitals here
+  correctForCapitals();
+  correctTotal();
+});
+
+$amountOfLetters.on('change', function() {
+  //numbers = Totals - Letters
+  if( $isNumbers.prop('checked') ) {
+    $amountOfNumbers.val( $amountOfCharacters.val() - $(this).val() );
+  }
+  correctForCapitals();
+  correctTotal();
+});
+
+$amountOfNumbers.on('change', function() {
+  //Letters = Total - Numbers
+  if( $isLetters.prop('checked') ) {
+    $amountOfLetters.val( $amountOfCharacters.val() - $(this).val() );
+  }
+  correctForCapitals();
+  correctTotal()
 });
 
 

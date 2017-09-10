@@ -9,26 +9,29 @@
     <h1>Tell me how you would like your password</h1>
     <form id="passForm">
       <span>How many characters?</span><br>
-      <input type="number" id="amountOfCharacters" value="34"><br>
+      <input type="number" id="amountOfCharacters" value="8"><br>
       <div class="checkDiv">
-        <span>Letters?</span>
-        <input type="checkbox" class="isIncluded" id="isLetters" checked>
-        <input type="number" id="amountOfLetters" value="8">
-        <br>
+        <div class="checkDivText">
+          <span>Letters?</span>
+          <input type="checkbox" class="isIncluded" id="isLetters" checked>
+          <input type="number" id="amountOfLetters" value="0">
+        </div>
       </div>
       <div class="checkDiv">
-        <span>Capitals?</span>
-        <input type="checkbox" class="isIncluded" id="isCapitals" checked>
-        <span>Does it matter how many?</span>
-        <input type="checkbox" class="isIncluded" id="isQuantityCapitals" checked>
-        <input type="number" id="amountOfCapitals" value="4">
-        <br>
+        <div class="checkDivText">
+          <span>Capitals?</span>
+          <input type="checkbox" class="isIncluded" id="isCapitals" checked>
+          <span>Does it matter how many?</span>
+          <input type="checkbox" class="isIncluded" id="isQuantityCapitals" checked>
+          <input type="number" id="amountOfCapitals" value="0">
+        </div>
       </div>
       <div class="checkDiv">
-        <span>Numbers?</span>
-        <input type="checkbox" class="isIncluded" id="isNumbers" checked>
-        <input type="number" id="amountOfNumbers" value="5">
-        <br>
+        <div class="checkDivText">
+          <span>Numbers?</span>
+          <input type="checkbox" class="isIncluded" id="isNumbers" checked>
+          <input type="number" id="amountOfNumbers" value="0">
+        </div>
       </div>
       <input type="submit" id="submit">
     </form>

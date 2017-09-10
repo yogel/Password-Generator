@@ -15,6 +15,8 @@ current issues:
   Solution: after password generated shuffle the characters before being spit out.
   SOLVED!!!!!!!
 
-4. total needs to be factored into the program. When total set the other fields should reflect that. and when other fields are changed the total and other field should reflect that as well. Expand the .on('change, function')
+4. Total needs to be factored into the program. When total set the other fields should reflect that. and when other fields are changed the total and other field should reflect that as well. Expand the .on('change, function')
 
 5. styling
+
+6. When numbers or letters unchecked the other should become equal to the total and then reverse the action when rechecked.
