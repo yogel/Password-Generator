@@ -1,3 +1,14 @@
+const $form = $('form');
+const $amountOfCharacters = $('#amountOfCharacters');
+const $isLetters = $('#isLetters');
+const $amountOfLetters = $('#amountOfLetters');
+const $isCapitals = $('#isCapitals');
+const $isQuantityCapitals = $('#isQuantityCapitals');
+const $amountOfCapitals = $('#amountOfCapitals');
+const $isNumbers = $('#isNumbers');
+const $amountOfNumbers = $('#amountOfNumbers');
+const $submit = $('#submit');
+
 /*This function generates a number between 0 and 9*/
 function ranNumbers(amount) {
   let number = [];
@@ -52,28 +63,15 @@ function genLetters(amount, capitals) {
   return lets;
 }
 
-
-
-//this takes away input when user doesn't want certain characters
-$('.isIncluded').on('click', function() {
-    if( $(this).prop('checked') ) {
-      if( $(this).prop("id") == "isCapitals" ) {
-        //if the user doesn't want capitals there is no reason to ask
-        //how many capitals they want or whether it matters
-        $(this).next().next().show();
-        if( $(this).next().next().prop('checked') ) {
-          $(this).next().next().next().show();
-        }
-      }
-        $(this).next().show();
-    } else {
-      if( $(this).prop("id") == "isCapitals" ) {
-        $(this).next().next().hide();
-        $(this).next().next().next().hide();
-      }
-        $(this).next().hide();
-    }
-});
+//divides the total between the numbers and letters
+function distributeTotal() {
+  let nums = $amountOfCharacters.val() / 2;
+  let lets = $amountOfCharacters.val() / 2;
+  nums = Math.floor(nums);
+  lets = Math.ceil(lets);
+  $amountOfLetters.val(lets);
+  $amountOfNumbers.val(nums);
+}
 
 //this function randomizes the order of a string
 function shuffle(string) {
@@ -103,7 +101,6 @@ function correctTotal() {
   }
 }
 
-//work on the quantity of capitals mattering
 //checks to see if the user wants to include certain
 //characters then removes the number input field if they don't
 function checkedMaybe() {
@@ -116,21 +113,37 @@ function checkedMaybe() {
   });
 }
 
-checkedMaybe();
+//this takes away input when user doesn't want certain characters
+$('.isIncluded').on('change', function() {
+    if( $(this).prop('checked') ) {
+      if( $(this).prop("id") == "isCapitals" ) {
+        //if the user doesn't want capitals there is no reason to ask
+        //how many capitals they want or whether it matters
+        $(this).next().next().show();
+        if( $(this).next().next().prop('checked') ) {
+          $(this).next().next().next().show();
+        }
+      }
+        $(this).next().show();
+    } else {
+      if( $(this).prop("id") == "isCapitals" ) {
+        $(this).next().next().hide();
+        $(this).next().next().next().hide();
+      }
+        $(this).next().hide();
+    }
+    if( $isLetters.prop('checked') && $isNumbers.prop('checked') ) {
+      distributeTotal();
+    } else if ( $isLetters.prop('checked') ) {
+      $amountOfLetters.val( $amountOfCharacters.val() );
+    } else if ( $isNumbers.prop('checked') ) {
+      $amountOfNumbers.val( $amountOfCharacters.val() );
+    }
+});
 
-const $form = $('form');
-const $amountOfCharacters = $('#amountOfCharacters');
-const $isLetters = $('#isLetters');
-const $amountOfLetters = $('#amountOfLetters');
-const $isCapitals = $('#isCapitals');
-const $isQuantityCapitals = $('#isQuantityCapitals');
-const $amountOfCapitals = $('#amountOfCapitals');
-const $isNumbers = $('#isNumbers');
-const $amountOfNumbers = $('#amountOfNumbers');
-const $submit = $('#submit');
+checkedMaybe(); //runs at beginning to eliminate unwanted input fields
+
 //when total inputed evenly distribute total amungst wanted types
-
-
 $amountOfCharacters.on('change', function() {
   console.log( $(this).val() );
   if( $isLetters.prop('checked') && $isNumbers.prop('checked') ) {
@@ -184,7 +197,6 @@ $form.submit( function(e) {
   else {
     var lettersQuantity = 0;
   }
-
   if ( $isCapitals.prop('checked') && $isQuantityCapitals.prop('checked') ) {
     var capitalsQuantity = parseInt( $amountOfCapitals.val() );
   }
@@ -194,22 +206,18 @@ $form.submit( function(e) {
   else {
     var capitalsQuantity = 0;
   }
-
   if ( $isNumbers.prop('checked') ) {
   var numbersQuantity = parseInt( $amountOfNumbers.val() );
   }
   else {
     var numbersQuantity = 0;
   }
-
   var nums = ranNumbers(numbersQuantity);
   var lets = genLetters(lettersQuantity, capitalsQuantity);
   var password = nums + lets;
   password = shuffle(password);
-
   console.log('capitals: '+ capitalsQuantity);
   console.log('letters: '+ lettersQuantity);
   console.log('numbers: '+ numbersQuantity);
   console.log(password);
-
 });
