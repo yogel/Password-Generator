@@ -60,15 +60,6 @@ function genLetters(amount, capitals) {
   return lets;
 }
 
-// const $amountOfCharactersVal = $amountOfCharacters.val();
-// const $isLettersVal = $isLetters.val();
-// const $amountOfLettersVal = $amountOfLetters.val();
-// const $isCapitalsVal = $isCapitals.val();
-// const $amountOfCapitalsVal = $amountOfCapitals.val();
-// const $isNumbersVal = $isNumbers.val();
-// const $amountOfNumbersVal = $amountOfNumbers.val();
-// const $submitVal = $submit.val();
-
 const $form = $('form');
 const $amountOfCharacters = $('#amountOfCharacters');
 const $isLetters = $('#isLetters');
@@ -87,7 +78,9 @@ $('.isIncluded').on('click', function() {
         //if the user doesn't want capitals there is no reason to ask
         //how many capitals they want or whether it matters
         $(this).next().next().show();
-        $(this).next().next().next().show();
+        if( $(this).next().next().prop('checked') ) {
+          $(this).next().next().next().show();
+        }
       }
         $(this).next().show();
     } else {
@@ -98,6 +91,17 @@ $('.isIncluded').on('click', function() {
         $(this).next().hide();
     }
 });
+
+//this function randomizes the order of a string
+function shuffle(string) {
+  a = string.split('');
+  for (let i = a.length; i; i--) {
+    let j = Math.floor(Math.random() * i);
+    [a[i - 1], a[j]] = [a[j], a[i - 1]];
+  }
+  password = a.join('');
+  return password;
+}
 
 //work on the quantity of capitals mattering
 //checks to see if the user wants to include certain
@@ -153,6 +157,7 @@ $form.submit( function(e) {
   var nums = ranNumbers(numbersQuantity);
   var lets = genLetters(lettersQuantity, capitalsQuantity);
   var password = nums + lets;
+  password = shuffle(password);
 
   console.log('capitals: '+ capitalsQuantity);
   console.log('letters: '+ lettersQuantity);
