@@ -113,6 +113,26 @@ function checkedMaybe() {
   });
 }
 
+function readjustValues() {
+  if( $isLetters.prop('checked') && $isNumbers.prop('checked') ) {
+    //total divided between numbers and letters and
+    //if capitals checked then some will be capitals
+    let nums = $amountOfCharacters.val() / 2;
+    let lets = $amountOfCharacters.val() / 2;
+    nums = Math.floor(nums);
+    lets = Math.ceil(lets);
+    $amountOfLetters.val(lets);
+    $amountOfNumbers.val(nums);
+    console.log( "numbers: " + nums + "    letters: " + lets )
+  } else if ( $isLetters.prop('checked') ) {
+    //letters will be total and if capitals checked some will be capitals
+    $amountOfLetters.val( $amountOfCharacters.val() )
+  } else if ( $isNumbers.prop('checked') ) {
+    //numbers will become total
+    $amountOfNumbers.val( $amountOfCharacters.val() )
+  }
+}
+
 //this takes away input when user doesn't want certain characters
 $('.isIncluded').on('change', function() {
     if( $(this).prop('checked') ) {
@@ -142,27 +162,11 @@ $('.isIncluded').on('change', function() {
 });
 
 checkedMaybe(); //runs at beginning to eliminate unwanted input fields
-
+readjustValues();
 //when total inputed evenly distribute total amungst wanted types
 $amountOfCharacters.on('change', function() {
   console.log( $(this).val() );
-  if( $isLetters.prop('checked') && $isNumbers.prop('checked') ) {
-    //total divided between numbers and letters and
-    //if capitals checked then some will be capitals
-    let nums = $amountOfCharacters.val() / 2;
-    let lets = $amountOfCharacters.val() / 2;
-    nums = Math.floor(nums);
-    lets = Math.ceil(lets);
-    $amountOfLetters.val(lets);
-    $amountOfNumbers.val(nums);
-    console.log( "numbers: " + nums + "    letters: " + lets )
-  } else if ( $isLetters.prop('checked') ) {
-    //letters will be total and if capitals checked some will be capitals
-    $amountOfLetters.val( $(this).val() )
-  } else if ( $isNumbers.prop('checked') ) {
-    //numbers will become total
-    $amountOfNumbers.val( $(this).val() )
-  }
+  readjustValues();
   //deal with the capitals here
   correctForCapitals();
   correctTotal();
