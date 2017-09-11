@@ -84,6 +84,12 @@ function shuffle(string) {
   return password;
 }
 
+function correctLetters() {
+  if ( $amountOfCapitals.val() > $amountOfLetters.val() ) {
+    $amountOfLetters.val( $amountOfCapitals.val() );
+  }
+}
+
 function correctForCapitals() {
   if( $isCapitals.prop('checked') ) {
     $amountOfCapitals.val( Math.floor( $amountOfLetters.val() / 3 ) );
@@ -179,6 +185,12 @@ $amountOfLetters.on('change', function() {
   }
   correctForCapitals();
   correctTotal();
+});
+
+$amountOfCapitals.on('change', function() {
+  correctLetters();
+  correctTotal();
+  console.log('change fired');
 });
 
 $amountOfNumbers.on('change', function() {
