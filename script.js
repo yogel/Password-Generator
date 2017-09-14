@@ -232,8 +232,11 @@ $form.submit( function(e) {
   var lets = genLetters(lettersQuantity, capitalsQuantity);
   var password = nums + lets;
   password = shuffle(password);
+  var answerHTML = "<span class = 'answer'>";
+  answerHTML += password + "</span>";
   console.log('capitals: '+ capitalsQuantity);
   console.log('letters: '+ lettersQuantity);
   console.log('numbers: '+ numbersQuantity);
   console.log(password);
+  $("#answer").html(answerHTML);
 });
